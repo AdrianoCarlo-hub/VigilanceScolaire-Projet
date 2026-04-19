@@ -16,7 +16,7 @@ public class VigilanceApplication {
     @PostConstruct
     public void initTwilio() {
         // Initialisation avec tes identifiants Twilio
-        Twilio.init("AC5e7d796b2f6615192f74af8ac34350a6", "5edab10e4feeaf5a2ae8bd915a014761");
+        Twilio.init("ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "5edab10e4feeaf5a2ae8bd915a014761");
         System.out.println("Sms Service (Twilio) initialisé avec succès.");
     }
 }
