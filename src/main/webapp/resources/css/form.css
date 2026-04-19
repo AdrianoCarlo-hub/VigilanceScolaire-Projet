@@ -1,0 +1,101 @@
+/* Style global de la page de formulaire (sans sidebar) */
+body.form-body {
+    background-color: #111827; /* Fond très sombre */
+    font-family: 'Inter', sans-serif; /* Ou sans-serif par défaut */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #f3f4f6;
+}
+
+/* Conteneur central du formulaire */
+.form-container {
+    background-color: #1f2937; /* Gris un peu plus clair */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 500px; /* Largeur max comme sur la photo */
+}
+
+/* Titre du formulaire */
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Groupes de champs (label + input) */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Styles des Labels (Your email, etc.) */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Styles des Inputs (text, date, number, password, select) */
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #374151; /* Couleur de champ sombre */
+    border: 1px solid #4b5563; /* Bordure discrète */
+    border-radius: 8px; /* Arrondi comme sur la photo */
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box; /* Important pour le padding */
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #38bdf8; /* Bleu clair au focus */
+    ring: 2px;
+    ring-color: #38bdf8;
+}
+
+/* Style spécifique pour le textarea */
+textarea.form-control {
+    resize: vertical;
+    height: 100px;
+}
+
+/* Le grand bouton bleu (Register new account) */
+.btn-submit {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #38bdf8; /* Bleu clair */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #0ea5e9; /* Bleu un peu plus foncé au survol */
+}
+
+/* Bouton Retour à la liste */
+.btn-back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-back:hover {
+    color: #ffffff;
+}
