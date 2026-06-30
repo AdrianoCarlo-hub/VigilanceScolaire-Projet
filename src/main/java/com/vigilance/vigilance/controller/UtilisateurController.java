@@ -31,7 +31,6 @@ public class UtilisateurController {
         if (roles.contains("ROLE_ADMIN")) {
             return "redirect:/utilisateur";
         } else if (roles.contains("ROLE_PROFESSEUR")) {
-            // Redirection temporaire vers la liste des élèves (au lieu du dashboard)
             return "redirect:/eleve";
         }
         return "redirect:/login";
@@ -52,6 +51,13 @@ public class UtilisateurController {
     @PostMapping("/utilisateur/save")
     public String save(@ModelAttribute UtilisateurModel utilisateur) {
         service.saveUtilisateur(utilisateur);
+        return "redirect:/utilisateur";
+    }
+
+    // NOUVEAU : Cette méthode intercepte la mise à jour depuis le formulaire d'édition
+    @PostMapping("/utilisateur/update")
+    public String update(@ModelAttribute UtilisateurModel utilisateur) {
+        service.saveUtilisateur(utilisateur); // En JPA/Spring Data, save() gère aussi bien l'insertion que la mise à jour si l'ID existe
         return "redirect:/utilisateur";
     }
 

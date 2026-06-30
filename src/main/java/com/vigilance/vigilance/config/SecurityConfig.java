@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -12,34 +11,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // NOUVEAU : Cette méthode dit à Spring Security d'ignorer complètement ces dossiers.
-    // C'est radical pour stopper les boucles de redirection sur les images/css.
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico");
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Désactivé temporairement pour tes tests de développement
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Accès technique JSP et Error
-                        .requestMatchers("/WEB-INF/jsp/**", "/error").permitAll()
+                        // 1. Accès libre et total aux ressources statiques et à la gestion d'erreur globale
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico", "/error").permitAll()
 
-                        // 2. Routes publiques
+                        // 2. Accès technique obligatoire pour le moteur de rendu JSP
+                        .requestMatchers("/WEB-INF/jsp/**").permitAll()
+
+                        // 3. Routes applicatives publiques
                         .requestMatchers("/", "/login", "/register").permitAll()
 
-                        // 3. Accès temporaire pour création Admin
+                        // 4. Accès d'urgence temporaire pour l'initialisation de l'administrateur
                         .requestMatchers("/utilisateur/add", "/utilisateur/save").permitAll()
 
-                        // 4. Protections par Rôles
+                        // 5. Protections granulaires par permissions et rôles métiers
+                        .requestMatchers("/eleve/api/**").hasAnyRole("ADMIN", "PROFESSEUR", "SURVEILLANT")
                         .requestMatchers("/eleve/**").hasAnyRole("ADMIN", "PROFESSEUR")
                         .requestMatchers("/utilisateur/**").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/professor/**").hasAnyRole("PROFESSEUR", "ADMIN")
 
-                        // 5. Tout le reste (dont /dashboard) nécessite d'être logué
+                        // 6. Sécurisation obligatoire de tout le reste des modules (dont /dashboard)
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -60,8 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Note : NoOpPasswordEncoder est déprécié mais conservé selon ta demande
-        // pour tes tests en local.
+        // Conservé uniquement pour ton environnement de test local
         return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
     }
 }

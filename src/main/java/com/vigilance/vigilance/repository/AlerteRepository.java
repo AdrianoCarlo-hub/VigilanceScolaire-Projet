@@ -33,4 +33,37 @@ public interface AlerteRepository extends JpaRepository<AlerteModel, Long> {
     // PROFESSEUR : alertes envoyées de SES élèves
     @Query("SELECT a FROM AlerteModel a WHERE a.statut = 'ENVOYE' AND a.eleve.classe.utilisateur.id_utilisateur = :profId ORDER BY a.dateEnvoi DESC")
     List<AlerteModel> findAlertesEnvoyeesByProfesseurId(@Param("profId") Long profId);
+
+    // ========== MÉTHODES POUR LES ALERTES (ajoutées) ==========
+
+    /**
+     * Vérifie si une alerte existe déjà pour une référence donnée
+     * Utilisé pour éviter les doublons
+     */
+    boolean existsByIdReferenceAndTypeReference(Long idReference, String typeReference);
+
+    /**
+     * Récupère une alerte par sa référence
+     */
+    @Query("SELECT a FROM AlerteModel a WHERE a.idReference = :idReference AND a.typeReference = :typeReference")
+    List<AlerteModel> findByIdReferenceAndTypeReference(@Param("idReference") Long idReference,
+                                                        @Param("typeReference") String typeReference);
+
+    /**
+     * Récupère les alertes d'un élève
+     */
+    @Query("SELECT a FROM AlerteModel a WHERE a.eleve.id_eleve = :eleveId ORDER BY a.dateAlerte DESC")
+    List<AlerteModel> findByEleveId(@Param("eleveId") Long eleveId);
+
+    /**
+     * Récupère les alertes par type
+     */
+    @Query("SELECT a FROM AlerteModel a WHERE a.type = :type ORDER BY a.dateAlerte DESC")
+    List<AlerteModel> findByType(@Param("type") String type);
+
+    /**
+     * Récupère les alertes par statut
+     */
+    @Query("SELECT a FROM AlerteModel a WHERE a.statut = :statut ORDER BY a.dateAlerte DESC")
+    List<AlerteModel> findByStatut(@Param("statut") String statut);
 }

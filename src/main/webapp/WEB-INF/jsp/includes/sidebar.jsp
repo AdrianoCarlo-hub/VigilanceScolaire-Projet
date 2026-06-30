@@ -2,92 +2,107 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div style="width:200px;float:left;background:#2c3e50;height:100vh;color:white;padding:10px;position:fixed;overflow-y:auto;">
-    <h3 style="border-bottom: 1px solid #555; padding-bottom: 10px;">Vigilance</h3>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Informations utilisateur connecté -->
-    <div style="padding: 10px; background: #1a252f; border-radius: 5px; margin-bottom: 15px;">
-        <sec:authentication property="name" var="username" />
-        <sec:authentication property="authorities" var="roles" />
-        <div style="font-size: 12px; color: #ffd700;">
-            👤 ${username}<br>
-            🎭 Rôle: <sec:authentication property="authorities" />
+<style>
+    <%@ include file="sidebar.css" %>
+</style>
+
+<div class="sidebar">
+    <h3><i class="fas fa-shield-alt"></i> Vigilance</h3>
+
+    <div class="user-profile">
+        <div class="username">
+            <sec:authentication property="principal.username" />
+        </div>
+        <div class="role-tag">
+            <i class="fas fa-user-shield"></i>
+            <sec:authorize access="hasRole('ADMIN')">Administrateur</sec:authorize>
+            <sec:authorize access="hasRole('SURVEILLANT') and not hasRole('ADMIN')">Surveillant</sec:authorize>
+            <sec:authorize access="hasRole('PROFESSEUR') and not hasRole('ADMIN') and not hasRole('SURVEILLANT')">Professeur</sec:authorize>
         </div>
     </div>
 
-    <ul style="list-style:none;padding:0;">
-        <!-- DASHBOARD - Visible pour tous -->
-        <li style="margin-bottom: 5px;">
-            <a href="/dashboard" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;margin:2px 0;transition:background 0.3s;background:#1a252f;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='#1a252f'">
-                📊 Dashboard
+    <ul class="sidebar-menu">
+        <li>
+            <a href="${pageContext.request.contextPath}/dashboard">
+                <i class="fas fa-chart-pie"></i> Dashboard
             </a>
         </li>
 
-        <!-- Séparateur -->
-        <li style="margin: 10px 0; border-top: 1px solid #444;"></li>
+        <li class="separator"></li>
 
-        <!-- SECTION PRINCIPALE -->
-        <li><a href="/eleve" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">📚 Élèves</a></li>
-        <li><a href="/classe" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">🏫 Classes</a></li>
-        <li><a href="/parent" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">👪 Parents</a></li>
-        <li><a href="/absence" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">🚫 Absences</a></li>
-        <li><a href="/communication" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">📢 Alertes</a></li>
-        <li><a href="/note" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">📝 Notes</a></li>
-        <li><a href="/historique/alertes" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">📜 Historique alertes</a></li>
-        <li><a href="/bulletin" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-               onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">📊 Bulletins</a></li>
+        <li>
+            <a href="${pageContext.request.contextPath}/eleve">
+                <i class="fas fa-graduation-cap"></i> Élèves
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/classe">
+                <i class="fas fa-school"></i> Classes
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/parent">
+                <i class="fas fa-user-friends"></i> Parents
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/absence">
+                <i class="fas fa-user-clock"></i> Absences
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/communication">
+                <i class="fas fa-paper-plane"></i> Alertes SMS
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/note">
+                <i class="fas fa-pen-alt"></i> Notes & Évals
+            </a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/historique/alertes">
+                <i class="fas fa-history"></i> Historique Alertes
+            </a>
+        </li>
 
-        <%-- Seul l'ADMIN voit le lien Utilisateurs --%>
+        <li>
+            <a href="${pageContext.request.contextPath}/bulletin">
+                <i class="fas fa-file-invoice"></i> Bulletins
+            </a>
+        </li>
+
         <sec:authorize access="hasRole('ADMIN')">
-            <li><a href="/utilisateur" style="color:white;text-decoration:none;display:block;padding:10px;border-radius:4px;transition:background 0.3s;"
-                   onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='transparent'">👥 Utilisateurs</a></li>
+            <li class="separator"></li>
+            <li>
+                <a href="${pageContext.request.contextPath}/utilisateur">
+                    <i class="fas fa-users-cog"></i> Utilisateurs
+                </a>
+            </li>
         </sec:authorize>
 
-        <!-- Déconnexion -->
-        <li style="margin-top: 20px; border-top: 1px solid #555; padding-top: 10px;">
-            <form action="/logout" method="post" style="margin:0;">
-                <button type="submit" style="background:none; border:none; color:#e74c3c; cursor:pointer; padding:10px; font-size:16px; width:100%; text-align:left; border-radius:4px; transition:background 0.3s;"
-                        onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='none'">
-                    🔓 Déconnexion
+        <li class="logout-section">
+            <form action="${pageContext.request.contextPath}/logout" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button type="submit" class="btn-logout">
+                    <i class="fas fa-power-off"></i> Déconnexion
                 </button>
             </form>
         </li>
     </ul>
 </div>
 
-<style>
-    div[style*="overflow-y:auto"]::-webkit-scrollbar {
-        width: 5px;
-    }
-    div[style*="overflow-y:auto"]::-webkit-scrollbar-track {
-        background: #1a252f;
-    }
-    div[style*="overflow-y:auto"]::-webkit-scrollbar-thumb {
-        background: #ffd700;
-        border-radius: 5px;
-    }
-    a.active {
-        background: #34495e !important;
-        border-left: 3px solid #ffd700;
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const currentPath = window.location.pathname;
-        const links = document.querySelectorAll('ul li a');
+        const links = document.querySelectorAll('.sidebar-menu li a');
+
         links.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                link.classList.add('active');
-            } else if (currentPath.includes('/dashboard') && link.getAttribute('href') === '/dashboard') {
+            const href = link.getAttribute('href');
+            // Gestion du marquage d'activation précis ou par correspondance de sous-routage
+            if (href && (currentPath === href || (href !== '${pageContext.request.contextPath}/' && currentPath.startsWith(href)))) {
                 link.classList.add('active');
             }
         });

@@ -17,15 +17,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // CORRECTION ICI : On utilise .orElseThrow() pour gérer l'Optional proprement
         UtilisateurModel user = utilisateurRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
 
-        // Spring Security attend un rôle avec le préfixe "ROLE_" (ex: ROLE_ADMIN)
-        // .roles() ajoute automatiquement "ROLE_" devant la chaîne fournie.
+        // CORRECTION : Utilisation de .authorities() au lieu de .roles()
+        // pour éviter d'ajouter le préfixe ROLE_ alors qu'il est déjà présent dans la base de données.
         return User.withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole())
+                .authorities(user.getRole())
                 .build();
     }
 }

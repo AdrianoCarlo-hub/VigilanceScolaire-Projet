@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +43,7 @@ public class HistoriqueController {
 
             model.addAttribute("historique", historique);
         } catch (Exception e) {
-            System.err.println("❌ Erreur dans HistoriqueController: " + e.getMessage());
+            System.err.println("Erreur dans HistoriqueController: " + e.getMessage());
             e.printStackTrace();
             model.addAttribute("erreur", e.getMessage());
             model.addAttribute("historique", java.util.Collections.emptyList());

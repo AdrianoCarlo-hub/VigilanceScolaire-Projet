@@ -1,78 +1,86 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Envoyer une communication</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-        h1 { color: #333; }
-        .card { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
-        .card-header { background: #4CAF50; color: white; padding: 10px 15px; font-weight: bold; }
-        .card-body { padding: 15px; }
-        .info-row { margin-bottom: 10px; }
-        .label { font-weight: bold; width: 150px; display: inline-block; }
-        .message-auto { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px; white-space: pre-wrap; }
-        textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Arial; box-sizing: border-box; }
-        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #45a049; }
-        .btn-annuler { background-color: #f44336; margin-left: 10px; text-decoration: none; padding: 10px 20px; border-radius: 5px; color: white; display: inline-block; }
-        .btn-annuler:hover { background-color: #da190b; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>📨 Envoyer une communication</h1>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:include page="../includes/header.jsp" />
 
-        <div class="card">
-            <div class="card-header">
-                📋 Informations de l'élève
-            </div>
-            <div class="card-body">
-                <div class="info-row">
-                    <span class="label">👨‍🎓 Élève :</span>
-                    ${alerte.prenomEleve} ${alerte.nomEleve}
-                </div>
-                <div class="info-row">
-                    <span class="label">📧 Email parent :</span>
-                    ${alerte.emailParent}
-                </div>
-                <div class="info-row">
-                    <span class="label">📱 Téléphone :</span>
-                    ${alerte.telephoneParent}
-                </div>
-                <div class="info-row">
-                    <span class="label">⚠️ Type d'alerte :</span>
-                    ${alerte.typeAlerte}
-                </div>
-                <div class="message-auto">
-                    <strong>📝 Message automatique :</strong><br>
-                    ${alerte.messageAuto}
-                </div>
-            </div>
-        </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        <div class="card">
-            <div class="card-header">
-                ✏️ Rédiger votre message
-            </div>
-            <div class="card-body">
-                <form action="/communication/envoyer" method="post">
-                    <input type="hidden" name="idAlerte" value="${alerte.idAlerte}">
+<style>
+    <%@ include file="formulaire.css" %>
+</style>
 
-                    <label for="messagePersonnalise"><strong>Message personnalisé :</strong></label>
-                    <textarea id="messagePersonnalise" name="messagePersonnalise" rows="5"
-                              placeholder="Exemple : Bonjour, veuillez prendre connaissance de cette alerte concernant votre enfant..."
-                              required></textarea>
+<div class="main-layout">
+    <div class="sidebar-container"><jsp:include page="../includes/sidebar.jsp" /></div>
 
-                    <div style="margin-top: 15px;">
-                        <button type="submit">📱 Envoyer par SMS et Email</button>
-                        <a href="/communication/alertes" class="btn-annuler">❌ Annuler</a>
+    <div class="content">
+        <div class="communication-wrapper">
+
+            <h1><i class="fas fa-paper-plane"></i> Envoyer une communication</h1>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-id-card"></i> Informations de l'élève et du tuteur
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-user-graduate"></i> Élève :</span>
+                        <span>${alerte.prenomEleve} ${alerte.nomEleve.toUpperCase()}</span>
                     </div>
-                </form>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-envelope"></i> Email parent :</span>
+                        <span>${alerte.emailParent}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-phone-alt"></i> Téléphone :</span>
+                        <span>${alerte.telephoneParent}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="fas fa-exclamation-triangle"></i> Type d'alerte :</span>
+                        <span>
+                            <c:choose>
+                                <c:when test="${alerte.typeAlerte == 'NOTE_INSUFFISANTE'}">📉 Note insuffisante</c:when>
+                                <c:otherwise>🚫 Absence non justifiée</c:otherwise>
+                            </c:choose>
+                        </span>
+                    </div>
+
+                    <div class="message-auto">
+                        <strong><i class="fas fa-robot"></i> Contenu généré automatiquement par le système :</strong><br>
+                        ${alerte.messageAuto}
+                    </div>
+                </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-pen-nib"></i> Personnaliser le message de notification
+                </div>
+                <div class="card-body">
+                    <form action="${pageContext.request.contextPath}/communication/envoyer" method="post">
+                        <input type="hidden" name="idAlerte" value="${alerte.idAlerte}">
+
+                        <label for="messagePersonnalise">
+                            <i class="fas fa-comment-alt-lines"></i> Complément d'information ou directives pour le parent :
+                        </label>
+                        <textarea id="messagePersonnalise" name="messagePersonnalise" rows="5"
+                                  placeholder="Exemple : Bonjour, l'établissement souhaite vous rencontrer suite à cet incident. Veuillez contacter le secrétariat..."
+                                  required></textarea>
+
+                        <div class="action-buttons">
+                            <button type="submit">
+                                <i class="fas fa-share-square"></i> Distribuer par SMS & Email
+                            </button>
+                            <a href="${pageContext.request.contextPath}/communication/alertes" class="btn-annuler">
+                                <i class="fas fa-times-circle"></i> Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+
+<jsp:include page="../includes/footer.jsp" />
 </body>
 </html>

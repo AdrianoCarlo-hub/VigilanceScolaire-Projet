@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 import java.util.Set;
 
@@ -76,8 +78,42 @@ public class CommunicationController {
 
     @PostMapping("/envoyer")
     public String traiterEnvoi(@RequestParam Long idAlerte,
-                               @RequestParam String messagePersonnalise) {
-        alerteService.envoyerCommunication(idAlerte, messagePersonnalise);
+                               @RequestParam(required = false) String messagePersonnalise,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            alerteService.envoyerCommunication(idAlerte, messagePersonnalise);
+            redirectAttributes.addFlashAttribute("success", "Alerte envoyee avec succes !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de l'envoi : " + e.getMessage());
+        }
+        return "redirect:/communication/alertes";
+    }
+
+    /**
+     * Envoie toutes les alertes en attente
+     */
+    @PostMapping("/envoyer-toutes")
+    public String envoyerToutesAlertes(RedirectAttributes redirectAttributes) {
+        try {
+            int count = alerteService.envoyerAlertesEnAttente();
+            redirectAttributes.addFlashAttribute("success", count + " alerte(s) envoyee(s) avec succes !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de l'envoi : " + e.getMessage());
+        }
+        return "redirect:/communication/alertes";
+    }
+
+    /**
+     * Supprime une alerte en attente
+     */
+    @GetMapping("/supprimer/{idAlerte}")
+    public String supprimerAlerte(@PathVariable Long idAlerte, RedirectAttributes redirectAttributes) {
+        try {
+            alerteService.deleteAlerte(idAlerte);
+            redirectAttributes.addFlashAttribute("success", "Alerte supprimee avec succes !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la suppression : " + e.getMessage());
+        }
         return "redirect:/communication/alertes";
     }
 }

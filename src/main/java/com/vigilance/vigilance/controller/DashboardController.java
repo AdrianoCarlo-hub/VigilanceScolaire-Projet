@@ -28,25 +28,29 @@ public class DashboardController {
         String username = auth.getName();
 
         UtilisateurModel user = utilisateurRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + username));
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouve: " + username));
 
         String role = user.getRole();
         System.out.println("=== DASHBOARD ===");
         System.out.println("Utilisateur: " + username);
-        System.out.println("Rôle: " + role);
+        System.out.println("Role: " + role);
 
-        if ("ADMIN".equals(role)) {
-            System.out.println("✅ Chargement du Dashboard ADMIN");
+        // Admin - afficher le dashboard administrateur
+        if ("ADMIN".equals(role) || "ROLE_ADMIN".equals(role)) {
+            System.out.println("Chargement du Dashboard ADMIN");
             AdminDashboardDTO dashboard = dashboardService.getAdminDashboard();
             model.addAttribute("dashboard", dashboard);
-            return "dashboard/admin";  // ← Va vers /WEB-INF/jsp/dashboard/admin.jsp
-        } else if ("PROFESSEUR".equals(role)) {
-            System.out.println("✅ Chargement du Dashboard PROFESSEUR");
+            return "dashboard/admin";
+        }
+        // Professeur - afficher le dashboard professeur
+        else if ("PROFESSEUR".equals(role) || "ROLE_PROFESSEUR".equals(role)) {
+            System.out.println("Chargement du Dashboard PROFESSEUR");
             ProfessorDashboardDTO dashboard = dashboardService.getProfessorDashboard(user.getId_utilisateur());
             model.addAttribute("dashboard", dashboard);
-            return "dashboard/professor";  // ← Va vers /WEB-INF/jsp/dashboard/professor.jsp
+            return "dashboard/professor";
         }
 
+        System.out.println("Role non reconnu: " + role);
         return "redirect:/home";
     }
 }

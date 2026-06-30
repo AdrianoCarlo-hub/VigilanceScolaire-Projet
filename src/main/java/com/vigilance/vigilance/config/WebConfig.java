@@ -9,8 +9,14 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Redirige les requêtes /images/** vers src/main/resources/static/images/
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:///C:/Users/ASUS AMD/Pictures/vigilance/")
-                .setCachePeriod(0); // Désactive le cache pour le développement
+                .addResourceLocations("classpath:/static/images/");
+
+        // Faites de même pour le CSS et le JS si ce n'est pas déjà fait
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/images/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
     }
 }

@@ -29,8 +29,8 @@ public class ExportExcelService {
             headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             headerStyle.setBorderBottom(BorderStyle.THIN);
 
-            // En-têtes
-            String[] columns = {"Matricule", "Nom", "Prénom", "Sexe", "Date Naissance", "Parent", "Téléphone"};
+            // En-têtes (Remplacement de Matricule par ID)
+            String[] columns = {"ID", "Nom", "Prénom", "Sexe", "Date Naissance", "Parent", "Téléphone"};
             Row headerRow = sheet.createRow(0);
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -42,7 +42,8 @@ public class ExportExcelService {
             int rowNum = 1;
             for (EleveModel eleve : eleves) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(eleve.getMatricule());
+                // Remplacement de getMatricule() par id_eleve
+                row.createCell(0).setCellValue(eleve.getId_eleve() != null ? String.valueOf(eleve.getId_eleve()) : "");
                 row.createCell(1).setCellValue(eleve.getNom());
                 row.createCell(2).setCellValue(eleve.getPrenom());
                 row.createCell(3).setCellValue(eleve.getSexe());

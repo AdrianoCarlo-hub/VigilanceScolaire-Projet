@@ -1,7 +1,7 @@
 package com.vigilance.vigilance.model;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat; // Import nécessaire
+import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
@@ -15,14 +15,12 @@ public class EleveModel {
     private String nom;
     private String prenom;
 
-    // CORRECTION : Permet à Spring de convertir le String du formulaire en Date Java
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date_naissance;
 
     private String sexe;
     private String photo;
-    private String matricule;
 
     @ManyToOne
     @JoinColumn(name = "id_parent", referencedColumnName = "id_parent")
@@ -31,6 +29,14 @@ public class EleveModel {
     @ManyToOne
     @JoinColumn(name = "id_classe", referencedColumnName = "id_classe")
     private ClasseModel classe;
+
+    // ==========================================
+    // 💡 CONSTRUCTEUR PAR DÉFAUT REQUIS
+    // ==========================================
+    public EleveModel() {
+        this.classe = new ClasseModel();
+        this.parent = new ParentModel();
+    }
 
     // --- GETTERS ET SETTERS ---
 
@@ -72,14 +78,6 @@ public class EleveModel {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public String getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
     }
 
     public String getSexe() {

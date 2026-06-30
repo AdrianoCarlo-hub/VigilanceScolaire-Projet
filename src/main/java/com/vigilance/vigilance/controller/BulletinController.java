@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/bulletin")
@@ -175,19 +174,25 @@ public class BulletinController {
         double moyenneGenerale = noteService.calculerMoyenneGenerale(notes);
         bulletin.setMoyenneGenerale(Math.round(moyenneGenerale * 100.0) / 100.0);
 
-        // Rang dans la classe
-        List<ClassementEleveDTO> classement = getClassementClasse(eleve.getClasse().getId_classe(), dateDebut, dateFin);
-        for (ClassementEleveDTO c : classement) {
-            if (c.getIdEleve().equals(eleveId)) {
-                bulletin.setRang(c.getRang());
-                break;
+        // Rang dans la classe et professeur principal avec vérifications de sécurité (Null check)
+        if (eleve.getClasse() != null && eleve.getClasse().getId_classe() != null) {
+            List<ClassementEleveDTO> classement = getClassementClasse(eleve.getClasse().getId_classe(), dateDebut, dateFin);
+            for (ClassementEleveDTO c : classement) {
+                if (c.getIdEleve().equals(eleveId)) {
+                    bulletin.setRang(c.getRang());
+                    break;
+                }
             }
-        }
-        bulletin.setTotalEleves(classement.size());
+            bulletin.setTotalEleves(classement.size());
 
-        // Professeur principal
-        if (eleve.getClasse() != null && eleve.getClasse().getUtilisateur() != null) {
-            bulletin.setNomProfesseurPrincipal(eleve.getClasse().getUtilisateur().getUsername());
+            // Professeur principal
+            if (eleve.getClasse().getUtilisateur() != null) {
+                bulletin.setNomProfesseurPrincipal(eleve.getClasse().getUtilisateur().getUsername());
+            }
+        } else {
+            bulletin.setRang(0);
+            bulletin.setTotalEleves(0);
+            bulletin.setNomProfesseurPrincipal("Non assigné");
         }
 
         // Appréciation automatique
@@ -203,8 +208,16 @@ public class BulletinController {
         for (EleveModel eleve : eleves) {
             List<NoteModel> notes = noteService.getNotesByEleveIdAndDateRange(eleve.getId_eleve(), dateDebut, dateFin);
             double moyenne = noteService.calculerMoyenneGenerale(notes);
-            classement.add(new ClassementEleveDTO(eleve.getId_eleve(), eleve.getNom(), eleve.getPrenom(),
-                    eleve.getMatricule(), moyenne, 0));
+
+            // CORRECTION : Remplacement de getMatricule() par l'identifiant technique (id_eleve) converti en String
+            classement.add(new ClassementEleveDTO(
+                    eleve.getId_eleve(),
+                    eleve.getNom(),
+                    eleve.getPrenom(),
+                    String.valueOf(eleve.getId_eleve()),
+                    moyenne,
+                    0
+            ));
         }
 
         classement.sort((a, b) -> Double.compare(b.getMoyenneGenerale(), a.getMoyenneGenerale()));

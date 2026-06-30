@@ -1,24 +1,74 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <jsp:include page="../includes/header_form.jsp" />
 
-<div class="form-container">
-    <a href="${pageContext.request.contextPath}/classe" class="btn-back">← Retour à la liste</a>
-    <h2>Modifier la Classe</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <form action="${pageContext.request.contextPath}/classe/save" method="post">
+<style>
+    <%@ include file="edit.css" %>
+</style>
+
+<div class="form-container">
+    <a href="${pageContext.request.contextPath}/classe" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Retour aux classes
+    </a>
+    <h2><i class="fas fa-edit"></i> Modifier la Classe</h2>
+
+    <form id="classeForm" action="${pageContext.request.contextPath}/classe/save" method="post">
         <input type="hidden" name="id_classe" value="${classe.id_classe}">
 
-        <div class="form-group"><label>Nom de la classe</label>
-            <input type="text" name="nom" value="${classe.nom}" class="form-control" required></div>
+        <div class="form-group">
+            <label><i class="fas fa-graduation-cap"></i> Nom de la classe</label>
+            <input type="text" name="nom" id="nom" class="form-control" required
+                   value="${classe.nom}"
+                   placeholder="Ex: 6ème A, CM2, Terminale A..."
+                   title="Lettres, chiffres, espaces, tiret et apostrophe uniquement">
+            <div class="error-message" id="nomError">
+                <i class="fas fa-exclamation-circle"></i> Caractères non autorisés. Utilisez : lettres, chiffres, espaces, tiret (-) et apostrophe (')
+            </div>
+        </div>
 
-        <div class="form-group"><label>Niveau</label>
-            <input type="text" name="niveau" value="${classe.niveau}" class="form-control"></div>
+        <div class="form-group">
+            <label><i class="fas fa-layer-group"></i> Niveau</label>
+            <select name="niveau" id="niveau" class="form-control" required data-selected="${classe.niveau}">
+                <option value="">-- Sélectionner un niveau --</option>
+            </select>
+        </div>
 
-        <div class="form-group"><label>Année Scolaire</label>
-            <input type="text" name="annee_scolaire" value="${classe.annee_scolaire}" class="form-control"></div>
+        <div class="form-group">
+            <label><i class="fas fa-calendar-alt"></i> Année Scolaire</label>
+            <input type="text" name="annee_scolaire" id="annee_scolaire" class="form-control" required
+                   value="${classe.annee_scolaire}"
+                   placeholder="Ex: 2024-2025"
+                   maxlength="9"
+                   title="Format: 2024-2025 (4 chiffres - 4 chiffres)">
+            <div class="error-message" id="anneeError">
+                <i class="fas fa-exclamation-circle"></i> Format invalide. Utilisez le format: 2024-2025 (ex: 2024-2025)
+            </div>
+        </div>
 
-        <button type="submit" class="btn-submit">Mettre à jour</button>
+        <div class="form-group">
+            <label><i class="fas fa-user-tie"></i> Professeur Principal</label>
+            <select name="utilisateur.id_utilisateur" id="professeur" class="form-control">
+                <option value="">-- Aucun professeur assigné --</option>
+                <c:forEach var="prof" items="${professeurs}">
+                    <option value="${prof.id_utilisateur}" ${classe.utilisateur != null && classe.utilisateur.id_utilisateur == prof.id_utilisateur ? 'selected' : ''}>
+                        [${prof.id_utilisateur}] - ${prof.username} (${prof.role})
+                    </option>
+                </c:forEach>
+            </select>
+            <small style="color: #7f8c8d;">Vous pouvez rechercher par ID ou nom d'utilisateur</small>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            <i class="fas fa-save"></i> Mettre à jour
+        </button>
     </form>
 </div>
-</body>
-</html>
+
+<script src="${pageContext.request.contextPath}/js/classe/edit.js"></script>
+
+<jsp:include page="../includes/footer.jsp" />

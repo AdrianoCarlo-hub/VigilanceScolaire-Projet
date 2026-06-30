@@ -3,110 +3,151 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../includes/header_form.jsp" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
-    .form-container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: #1a252f;
-        padding: 20px;
-        border-radius: 10px;
+    <%@ include file="add.css" %>
+
+    .student-list {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: #22313f;
+        margin-top: 10px;
     }
-    .form-group {
-        margin-bottom: 20px;
-    }
-    label {
-        display: block;
-        margin-bottom: 8px;
-        color: white;
-        font-weight: bold;
-    }
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        background: #34495e;
-        color: white;
-    }
-    .form-control:focus {
-        outline: none;
-        border-color: #ffd700;
-    }
-    .btn-submit {
-        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-        color: white;
-        padding: 12px 30px;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: transform 0.3s;
-        width: 100%;
-    }
-    .btn-submit:hover {
-        transform: translateY(-2px);
-    }
-    .btn-back {
-        display: inline-block;
-        margin-bottom: 20px;
-        color: #ffd700;
-        text-decoration: none;
-    }
-    .btn-back:hover {
-        color: #fff;
-    }
-    h2 {
-        color: white;
-        margin-bottom: 20px;
-    }
-    .info-note {
-        background: #1a252f;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        color: #ffd700;
-        font-size: 14px;
-        border-left: 3px solid #ffd700;
-    }
-    select.form-control {
-        cursor: pointer;
-    }
-    option {
-        background: #34495e;
-        color: white;
-    }
-    .checkbox-group {
+
+    .student-item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .student-item:hover {
+        background: rgba(0, 212, 255, 0.1);
+    }
+
+    .student-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 15px;
+        cursor: pointer;
+        accent-color: var(--accent-cyan);
+    }
+
+    .student-info {
+        flex: 1;
+    }
+
+    .student-name {
+        font-weight: bold;
         color: white;
-        margin-top: 15px;
     }
-    .checkbox-group input {
-        width: 18px;
-        height: 18px;
+
+    .student-id {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-left: 10px;
+    }
+
+    .select-all {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: #2c3e50;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .select-all input {
+        width: 20px;
+        height: 20px;
+        margin-right: 15px;
         cursor: pointer;
     }
-    .checkbox-group label {
-        margin-bottom: 0;
+
+    .select-all label {
+        margin: 0;
         cursor: pointer;
+        font-weight: bold;
+        color: var(--accent-gold);
+    }
+
+    .selected-count {
+        margin-left: auto;
+        font-size: 12px;
+        color: var(--accent-cyan);
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, var(--success-color), #27ae60);
+    }
+
+    /* Styles pour les notifications toast */
+    .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .toast-notification {
+        min-width: 300px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideInRight 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        font-weight: 500;
+    }
+
+    .toast-success {
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
+        border-left: 4px solid #fff;
+    }
+
+    .toast-error {
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        border-left: 4px solid #fff;
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
 </style>
 
 <div class="form-container">
-    <a href="${pageContext.request.contextPath}/absence" class="btn-back">← Retour à la liste</a>
-    <h2>📝 Enregistrer une Absence</h2>
+    <a href="${pageContext.request.contextPath}/absence" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Retour à la liste
+    </a>
+    <h2><i class="fas fa-calendar-minus"></i> Enregistrer des Absences</h2>
 
     <sec:authorize access="hasRole('PROFESSEUR')">
         <div class="info-note">
-            ℹ️ En tant que Professeur, vous ne voyez que vos propres classes.
+            <i class="fas fa-info-circle"></i> En tant que Professeur, vous ne voyez que vos propres classes.
         </div>
     </sec:authorize>
 
-    <form id="absenceForm" action="${pageContext.request.contextPath}/absence/save" method="post">
+    <form id="absenceForm" action="${pageContext.request.contextPath}/absence/save-multiple" method="post">
 
         <div class="form-group">
-            <label>📚 1. Choisir la classe</label>
+            <label><i class="fas fa-book"></i> 1. Choisir la classe</label>
             <select id="classeSelect" class="form-control" required>
                 <option value="">-- Sélectionner une classe --</option>
                 <c:forEach var="cl" items="${classes}">
@@ -116,42 +157,80 @@
         </div>
 
         <div class="form-group">
-            <label>👨‍🎓 2. Choisir l'élève absent</label>
-            <select id="eleveSelect" name="eleve.id_eleve" class="form-control" required disabled>
-                <option value="">-- Choisissez d'abord une classe --</option>
-            </select>
+            <label><i class="fas fa-user-graduate"></i> 2. Sélectionner les élèves absents</label>
+            <div id="studentListContainer" class="student-list">
+                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+                    <i class="fas fa-info-circle"></i> Veuillez d'abord sélectionner une classe
+                </div>
+            </div>
+            <div id="selectedCount" class="selected-count" style="margin-top: 10px; text-align: right;"></div>
         </div>
 
         <div class="form-group">
-            <label>📅 3. Date de l'absence</label>
-            <input type="date" name="date_absence" class="form-control" id="dateAbsence" required>
+            <label><i class="fas fa-calendar-alt"></i> 3. Date de l'absence</label>
+            <input type="date" name="date_absence" id="dateAbsence" class="form-control" required>
         </div>
 
         <div class="form-group">
-            <label>📝 4. Motif de l'absence</label>
-            <input type="text" name="motif" id="motif" class="form-control" value="Inconnu" placeholder="Ex: Raisons médicales, Rendez-vous...">
+            <label><i class="fas fa-comment-alt"></i> 4. Motif de l'absence (optionnel)</label>
+            <input type="text" name="motif" id="motif" class="form-control" placeholder="Ex: Raisons médicales, Rendez-vous...">
         </div>
 
         <div class="checkbox-group">
             <input type="checkbox" name="justifie" id="justifie" value="true">
-            <label for="justifie">✅ L'absence est-elle justifiée ?</label>
+            <label for="justifie"><i class="fas fa-check-circle"></i> Absences justifiées</label>
         </div>
 
-        <button type="submit" class="btn-submit">✅ Valider l'absence</button>
+        <!-- Champ caché pour les IDs des élèves -->
+        <input type="hidden" id="elevesIds" name="elevesIds">
+
+        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Enregistrer les absences</button>
     </form>
 </div>
 
+<!-- Conteneur pour les notifications toast -->
+<div id="toastContainer" class="toast-container"></div>
+
 <script>
+    // ========== FONCTIONS DE NOTIFICATION TOAST ==========
+
+    function showToast(message, type) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast-notification toast-${type}`;
+
+        let icon = '';
+        if (type === 'success') icon = '<i class="fas fa-check-circle fa-lg"></i>';
+        else if (type === 'error') icon = '<i class="fas fa-exclamation-circle fa-lg"></i>';
+        else icon = '<i class="fas fa-info-circle fa-lg"></i>';
+
+        toast.innerHTML = `${icon} <span>${message}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    }
+
+    // ========== LOGIQUE PRINCIPALE ==========
+
     // Date du jour par défaut
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('dateAbsence').value = today;
 
     const classeSelect = document.getElementById('classeSelect');
-    const eleveSelect = document.getElementById('eleveSelect');
+    const studentContainer = document.getElementById('studentListContainer');
+    const elevesIdsInput = document.getElementById('elevesIds');
+    const selectedCountDiv = document.getElementById('selectedCount');
     const motifInput = document.getElementById('motif');
     const justifieCheckbox = document.getElementById('justifie');
 
-    // Gestion de la case "justifiée"
+    let currentEleves = [];
+
     function updateJustifieState() {
         const motif = motifInput.value.trim();
         if (motif !== '' && motif !== 'Inconnu') {
@@ -165,80 +244,143 @@
     motifInput.addEventListener('input', updateJustifieState);
     updateJustifieState();
 
-    // Chargement des élèves quand la classe change
+    function updateSelectedCount() {
+        const checkboxes = document.querySelectorAll('.student-checkbox:checked');
+        const count = checkboxes.length;
+        selectedCountDiv.innerHTML = count > 0 ? count + ' élève(s) sélectionné(s)' : '';
+
+        // Construction de la chaîne d'IDs pour le champ caché
+        const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+        elevesIdsInput.value = selectedIds.join(',');
+        console.log('IDs sélectionnés (champ caché):', elevesIdsInput.value);
+    }
+
+    function renderStudentList(eleves) {
+        currentEleves = eleves;
+
+        if (!eleves || eleves.length === 0) {
+            studentContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">' +
+                '<i class="fas fa-folder-open"></i> Aucun élève dans cette classe</div>';
+            return;
+        }
+
+        let html = '';
+
+        // Ligne "Tout sélectionner"
+        html += '<div class="select-all">';
+        html += '<input type="checkbox" id="selectAllCheckbox">';
+        html += '<label for="selectAllCheckbox"><i class="fas fa-check-double"></i> Tout sélectionner</label>';
+        html += '<span class="selected-count" id="selectAllCount">0 élève(s)</span>';
+        html += '</div>';
+
+        // Liste des élèves
+        for (let i = 0; i < eleves.length; i++) {
+            const eleve = eleves[i];
+            const eleveId = eleve.id_eleve;
+            const nom = eleve.nom || '';
+            const prenom = eleve.prenom || '';
+
+            html += '<div class="student-item" data-id="' + eleveId + '">';
+            html += '<input type="checkbox" class="student-checkbox" value="' + eleveId + '" id="student_' + eleveId + '">';
+            html += '<div class="student-info">';
+            html += '<div class="student-name">' + nom + ' ' + prenom + '<span class="student-id">(#' + eleveId + ')</span></div>';
+            html += '</div>';
+            html += '</div>';
+        }
+
+        studentContainer.innerHTML = html;
+
+        // Événement "Tout sélectionner"
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function(e) {
+                const isChecked = e.target.checked;
+                document.querySelectorAll('.student-checkbox').forEach(cb => {
+                    cb.checked = isChecked;
+                });
+                updateSelectedCount();
+                const countSpan = document.getElementById('selectAllCount');
+                if (countSpan) {
+                    countSpan.innerText = isChecked ? currentEleves.length + ' élève(s)' : '0 élève(s)';
+                }
+            });
+        }
+
+        // Événements pour chaque checkbox
+        document.querySelectorAll('.student-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateSelectedCount();
+
+                const allCheckboxes = document.querySelectorAll('.student-checkbox');
+                const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+                const selectAll = document.getElementById('selectAllCheckbox');
+                if (selectAll) {
+                    selectAll.checked = allChecked;
+                    const countSpan = document.getElementById('selectAllCount');
+                    if (countSpan) {
+                        countSpan.innerText = allChecked ? currentEleves.length + ' élève(s)' : '0 élève(s)';
+                    }
+                }
+            });
+        });
+
+        // Clic sur la ligne
+        document.querySelectorAll('.student-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = this.querySelector('.student-checkbox');
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                }
+            });
+        });
+
+        updateSelectedCount();
+    }
+
+    // Chargement des élèves
     classeSelect.addEventListener('change', function() {
         const classeId = this.value;
 
         if (!classeId) {
-            eleveSelect.innerHTML = '<option value="">-- Choisissez d\'abord une classe --</option>';
-            eleveSelect.disabled = true;
+            studentContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">' +
+                '<i class="fas fa-info-circle"></i> Veuillez d\'abord sélectionner une classe</div>';
             return;
         }
 
-        eleveSelect.innerHTML = '<option value="">⏳ Chargement des élèves...</option>';
-        eleveSelect.disabled = true;
+        studentContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">' +
+            '<i class="fas fa-spinner fa-spin"></i> Chargement des élèves...</div>';
 
-        fetch('${pageContext.request.contextPath}/eleve/byClasse/' + classeId)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
-                }
-                return response.json();
-            })
+        fetch('${pageContext.request.contextPath}/eleve/byClasse/simple/' + classeId)
+            .then(response => response.json())
             .then(eleves => {
-                console.log('Élèves reçus:', eleves);
-
-                if (!eleves || eleves.length === 0) {
-                    eleveSelect.innerHTML = '<option value="">📭 Aucun élève dans cette classe</option>';
-                    eleveSelect.disabled = true;
-                    return;
-                }
-
-                eleveSelect.innerHTML = '<option value="">-- Sélectionner un élève --</option>';
-
-                for (let i = 0; i < eleves.length; i++) {
-                    const eleve = eleves[i];
-                    const id = eleve.id_eleve || eleve.id;
-                    const matricule = eleve.matricule || '';
-                    const nom = eleve.nom || '';
-                    const prenom = eleve.prenom || '';
-
-                    const option = document.createElement('option');
-                    option.value = id;
-                    option.textContent = `${id} - ${matricule} - ${nom} ${prenom}`;
-                    eleveSelect.appendChild(option);
-                }
-
-                eleveSelect.disabled = false;
+                renderStudentList(eleves);
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                eleveSelect.innerHTML = '<option value="">❌ Erreur de chargement</option>';
-                eleveSelect.disabled = true;
+                studentContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #e74c3c;">' +
+                    '<i class="fas fa-exclamation-circle"></i> Erreur lors du chargement</div>';
             });
     });
 
-    // Validation avant soumission
+    // Soumission du formulaire
     document.getElementById('absenceForm').addEventListener('submit', function(e) {
-        if (!eleveSelect.value) {
+        const selectedIds = Array.from(document.querySelectorAll('.student-checkbox:checked')).map(cb => cb.value);
+
+        if (selectedIds.length === 0) {
             e.preventDefault();
-            alert('❌ Veuillez sélectionner un élève avant de valider l\'absence.');
+            showToast('Veuillez sélectionner au moins un élève absent.', 'error');
             return false;
         }
 
-        if (!motifInput.value || motifInput.value.trim() === '') {
-            motifInput.value = 'Inconnu';
-        }
-
-        // Si motif = Inconnu, décocher justifié
-        if (motifInput.value.trim() === 'Inconnu') {
-            justifieCheckbox.checked = false;
-        }
+        // Mettre à jour le champ caché avec les IDs
+        elevesIdsInput.value = selectedIds.join(',');
+        console.log('SOUMISSION - IDs envoyés:', elevesIdsInput.value);
 
         return true;
     });
 </script>
 
 <jsp:include page="../includes/footer.jsp" />
-</body>
-</html>

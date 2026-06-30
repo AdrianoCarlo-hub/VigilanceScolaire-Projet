@@ -45,5 +45,31 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
                                                     @Param("dateDebut") Date dateDebut,
                                                     @Param("dateFin") Date dateFin);
 
+    // ========== MÉTHODES POUR LES ALERTES ==========
 
+    /**
+     * Récupère toutes les notes inférieures à un seuil donné
+     * Utilisé pour déclencher les alertes automatiques
+     */
+    @Query("SELECT n FROM NoteModel n WHERE n.valeur < :seuil")
+    List<NoteModel> findByValeurLessThan(@Param("seuil") double seuil);
+
+    /**
+     * Calcule la moyenne des notes pour une matière et un élève donnés
+     * Utilisé pour vérifier si une note est inférieure à la moyenne de l'élève dans cette matière
+     */
+    @Query("SELECT AVG(n.valeur) FROM NoteModel n WHERE n.matiere = :matiere AND n.eleve.id_eleve = :eleveId")
+    Double calculerMoyenneEleveParMatiere(@Param("eleveId") Long eleveId, @Param("matiere") String matiere);
+
+    /**
+     * Récupère toutes les notes d'un élève pour une matière spécifique
+     */
+    @Query("SELECT n FROM NoteModel n WHERE n.eleve.id_eleve = :eleveId AND n.matiere = :matiere")
+    List<NoteModel> findNotesByEleveIdAndMatiere(@Param("eleveId") Long eleveId, @Param("matiere") String matiere);
+
+    /**
+     * Récupère les 5 dernières notes d'un élève
+     */
+    @Query("SELECT n FROM NoteModel n WHERE n.eleve.id_eleve = :eleveId ORDER BY n.date_note DESC")
+    List<NoteModel> findTop5ByEleveIdOrderByDateDesc(@Param("eleveId") Long eleveId);
 }

@@ -24,20 +24,19 @@ public class SmsService {
     @PostConstruct
     public void init() {
         Twilio.init(accountSid, authToken);
-        System.out.println("✅ Twilio initialisé");
+        System.out.println("Twilio initialise");
     }
 
     /**
-     * Envoie un SMS avec toutes les informations de l'élève
+     * Envoie un SMS avec toutes les informations de l'eleve
      */
     public boolean envoyerSmsAvecInfosEleve(ParentModel parent, EleveModel eleve, String messagePersonnalise, String messageAuto) {
         try {
-            // Construire le message complet avec les infos de l'élève
             String messageComplet = construireMessageComplet(parent, eleve, messagePersonnalise, messageAuto);
 
             String numeroFormate = formaterNumero(parent.getTelephone());
-            System.out.println("📱 Envoi SMS à: " + numeroFormate);
-            System.out.println("📝 Message: " + messageComplet);
+            System.out.println("Envoi SMS a: " + numeroFormate);
+            System.out.println("Message: " + messageComplet);
 
             Message.creator(
                     new PhoneNumber(numeroFormate),
@@ -45,64 +44,57 @@ public class SmsService {
                     messageComplet
             ).create();
 
-            System.out.println("✅ SMS envoyé!");
+            System.out.println("SMS envoye!");
             return true;
 
         } catch (Exception e) {
-            System.err.println("❌ Erreur SMS: " + e.getMessage());
-            System.out.println("⚠️ [SIMULATION] SMS envoyé");
+            System.err.println("Erreur SMS: " + e.getMessage());
+            System.out.println("[SIMULATION] SMS envoye");
             return true;
         }
     }
 
     /**
-     * Construit le message complet avec toutes les informations
+     * Construit le message complet sans emojis
      */
     private String construireMessageComplet(ParentModel parent, EleveModel eleve, String messagePersonnalise, String messageAuto) {
         StringBuilder sb = new StringBuilder();
 
-        // En-tête
-        sb.append("📢 ALERTE VIGILANCE\n");
-        sb.append("═".repeat(30)).append("\n\n");
+        sb.append("ALERTE VIGILANCE\n");
+        sb.append("========================================\n\n");
 
-        // Message personnalisé du professeur
         if (messagePersonnalise != null && !messagePersonnalise.trim().isEmpty()) {
-            sb.append("✏️ MESSAGE DU PROFESSEUR :\n");
+            sb.append("MESSAGE DU PROFESSEUR :\n");
             sb.append(messagePersonnalise).append("\n\n");
         }
 
-        // Informations de l'élève
-        sb.append("👨‍🎓 INFORMATIONS ÉLÈVE :\n");
+        sb.append("INFORMATIONS ELEVE :\n");
         sb.append("   Nom complet : ").append(eleve.getPrenom()).append(" ").append(eleve.getNom()).append("\n");
-        sb.append("   Matricule : ").append(eleve.getMatricule()).append("\n");
+        sb.append("   ID Eleve : #").append(eleve.getId_eleve()).append("\n");
         if (eleve.getDate_naissance() != null) {
             sb.append("   Date naissance : ").append(eleve.getDate_naissance()).append("\n");
         }
-        sb.append("   Sexe : ").append(eleve.getSexe() != null ? eleve.getSexe() : "Non spécifié").append("\n");
+        sb.append("   Sexe : ").append(eleve.getSexe() != null ? eleve.getSexe() : "Non specifie").append("\n");
 
-        // Classe de l'élève
         if (eleve.getClasse() != null) {
             sb.append("   Classe : ").append(eleve.getClasse().getNom()).append("\n");
         }
         sb.append("\n");
 
-        // Informations du parent
-        sb.append("👪 INFORMATIONS PARENT :\n");
+        sb.append("INFORMATIONS PARENT :\n");
         sb.append("   Nom complet : ").append(parent.getPrenom()).append(" ").append(parent.getNom()).append("\n");
         sb.append("   Email : ").append(parent.getEmail()).append("\n");
-        sb.append("   Téléphone : ").append(parent.getTelephone()).append("\n");
+        sb.append("   Telephone : ").append(parent.getTelephone()).append("\n");
         if (parent.getAdresse() != null && !parent.getAdresse().isEmpty()) {
             sb.append("   Adresse : ").append(parent.getAdresse()).append("\n");
         }
         sb.append("\n");
 
-        // Message automatique d'alerte
-        sb.append("⚠️ DÉTAIL DE L'ALERTE :\n");
+        sb.append("DETAIL DE L'ALERTE :\n");
         sb.append(messageAuto).append("\n\n");
 
-        // Pied de page
-        sb.append("═".repeat(30)).append("\n");
-        sb.append("Cet email est un message automatique. Merci de ne pas y répondre.\n");
+        sb.append("========================================\n");
+        sb.append("Ce message est automatique. Merci de ne pas y repondre.\n");
 
         return sb.toString();
     }
@@ -112,8 +104,8 @@ public class SmsService {
         String nettoye = telephone.replaceAll("[^0-9]", "");
 
         if (nettoye.startsWith("0")) {
-            return "+33" + nettoye.substring(1);
-        } else if (nettoye.startsWith("33")) {
+            return "+261" + nettoye.substring(1);
+        } else if (nettoye.startsWith("261")) {
             return "+" + nettoye;
         }
         return telephone;

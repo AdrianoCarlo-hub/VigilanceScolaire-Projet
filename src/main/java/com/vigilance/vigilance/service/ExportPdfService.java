@@ -37,14 +37,14 @@ public class ExportPdfService {
             document.add(date);
             document.add(new Paragraph(" "));
 
-            // Tableau
-            PdfPTable table = new PdfPTable(7);
+            // Tableau (ajusté à 6 colonnes au lieu de 7)
+            PdfPTable table = new PdfPTable(6);
             table.setWidthPercentage(100);
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
 
             // En-têtes
-            String[] headers = {"ID", "Matricule", "Nom", "Prénom", "Sexe", "Date Naissance", "Parent"};
+            String[] headers = {"ID", "Nom", "Prénom", "Sexe", "Date Naissance", "Parent"};
             for (String header : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(header, new Font(Font.HELVETICA, 12, Font.BOLD)));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -54,8 +54,7 @@ public class ExportPdfService {
 
             // Données
             for (EleveModel eleve : eleves) {
-                table.addCell(new Phrase(String.valueOf(eleve.getId_eleve() != null ? eleve.getId_eleve() : "")));
-                table.addCell(new Phrase(eleve.getMatricule() != null ? eleve.getMatricule() : ""));
+                table.addCell(new Phrase(eleve.getId_eleve() != null ? String.valueOf(eleve.getId_eleve()) : ""));
                 table.addCell(new Phrase(eleve.getNom() != null ? eleve.getNom() : ""));
                 table.addCell(new Phrase(eleve.getPrenom() != null ? eleve.getPrenom() : ""));
                 table.addCell(new Phrase(eleve.getSexe() != null ? eleve.getSexe() : ""));
