@@ -109,7 +109,7 @@ public class AbsenceController {
             absenceService.saveAbsence(absence);
 
             String eleveNom = absence.getEleve() != null ?
-                    absence.getEleve().getNom() + " " + absence.getEleve().getPrenom() : "Élève";
+                    absence.getEleve().getNom() + " " + absence.getEleve().getPrenom() : "Eleve";
 
             if (isNew) {
                 redirectAttributes.addFlashAttribute("success", "Absence ajoutee avec succes pour " + eleveNom + " !");
@@ -161,7 +161,7 @@ public class AbsenceController {
                 if (eleve != null) {
                     AbsenceModel absence = new AbsenceModel();
                     absence.setEleve(eleve);
-                    absence.setDate_absence(java.sql.Date.valueOf(date));
+                    absence.setDate_absence(date);  // ✅ CORRECTION : LocalDate directement
                     absence.setMotif(motifFinal);
                     absence.setJustifie(justifie);
                     absenceService.saveAbsence(absence);
@@ -203,7 +203,7 @@ public class AbsenceController {
             }
 
             String eleveNom = absence.getEleve() != null ?
-                    absence.getEleve().getNom() + " " + absence.getEleve().getPrenom() : "Élève";
+                    absence.getEleve().getNom() + " " + absence.getEleve().getPrenom() : "Eleve";
 
             absenceService.deleteAbsence(id);
             redirectAttributes.addFlashAttribute("success", "Absence supprimee avec succes pour " + eleveNom + " !");
