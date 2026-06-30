@@ -1,0 +1,139 @@
+/* utilisateur_form.css */
+
+/* --- Animation et conteneur principal --- */
+.form-container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #1a252f;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    animation: slideUpForm 0.4s ease-out;
+}
+
+@keyframes slideUpForm {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Bouton de retour --- */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.btn-back:hover {
+    color: white;
+    transform: translateX(-3px);
+}
+
+/* --- Titre principal --- */
+h2 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 24px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h2 i {
+    color: #ffd700;
+}
+
+/* --- Structure des champs --- */
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+label i {
+    color: #00d4ff;
+    width: 16px;
+    text-align: center;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #34495e;
+    background: #2c3e50;
+    color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+/* Style spécifique pour le select pour éviter l'effet natif blanc sur certains navigateurs */
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23ffd700'><polygon points='0,0 10,0 5,5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+select.form-control option {
+    background: #2c3e50;
+    color: white;
+}
+
+.form-control::placeholder {
+    color: #7f8c8d;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #ffd700;
+    background: #34495e;
+    box-shadow: 0 0 8px rgba(255, 213, 0, 0.2);
+}
+
+/* --- Bouton de soumission --- */
+.btn-submit {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    padding: 14px 35px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}

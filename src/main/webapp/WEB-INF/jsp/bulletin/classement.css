@@ -1,0 +1,152 @@
+/* classement.css */
+
+/* --- Conteneur Général --- */
+.custom-table-container {
+    animation: fadeInPage 0.4s ease-out;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- En-tête de la Page --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.page-title-group h2 {
+    color: white;
+    margin: 0 0 8px 0;
+    font-size: 24px;
+}
+
+.page-title-group h2 i {
+    color: #ffd700;
+    margin-right: 10px;
+}
+
+/* Badge de la période / Trimestre */
+.periode-badge {
+    background: rgba(0, 212, 255, 0.15);
+    color: #00d4ff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+/* --- Boutons d'Action --- */
+.btn-action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-print {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-print:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    color: white;
+}
+
+.btn-back-custom {
+    background: #34495e;
+}
+
+.btn-back-custom:hover {
+    background: #2c3e50;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+/* --- Tableau Responsif --- */
+.responsive-table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Permet le scroll sur smartphone */
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.table-dark {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a252f;
+    color: white;
+    text-align: left;
+}
+
+.table-dark th {
+    background: #2c3e50;
+    padding: 15px;
+    font-weight: bold;
+    color: #ecf0f1;
+    border-bottom: 2px solid #34495e;
+}
+
+.table-dark th i {
+    margin-right: 6px;
+    color: #ffd700;
+}
+
+.table-dark td {
+    padding: 14px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+/* --- Styles spécifiques au podium (Rang) --- */
+.rang-1 {
+    background-color: rgba(255, 215, 0, 0.08) !important;
+    border-left: 4px solid #ffd700;
+}
+.rang-1 td { color: #ffd700; }
+
+.rang-2 {
+    background-color: rgba(192, 192, 192, 0.08) !important;
+    border-left: 4px solid #c0c0c0;
+}
+
+.rang-3 {
+    background-color: rgba(205, 127, 50, 0.08) !important;
+    border-left: 4px solid #cd7f32;
+}
+
+/* Animation de survol sur les lignes */
+.table-dark tbody tr {
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.table-dark tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Icônes de médailles */
+.medal-icon {
+    font-size: 16px;
+    margin-right: 4px;
+}

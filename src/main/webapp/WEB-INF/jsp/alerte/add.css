@@ -1,0 +1,152 @@
+/* alerte_form.css */
+
+/* --- Animation et conteneur global --- */
+.form-container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #1a252f;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    animation: slideUpForm 0.4s ease-out;
+}
+
+@keyframes slideUpForm {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Bouton de retour --- */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.btn-back:hover {
+    color: white;
+    transform: translateX(-3px);
+}
+
+/* --- Titre principal --- */
+h2 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 22px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h2 i {
+    color: #e74c3c;
+}
+
+/* --- Structure des éléments du formulaire --- */
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+label i {
+    color: #00d4ff;
+    width: 16px;
+    text-align: center;
+}
+
+/* Styles partagés : Inputs, Selects et Textarea */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #34495e;
+    background: #2c3e50;
+    color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+/* Rendu spécifique pour les balises select */
+select.form-control {
+    cursor: pointer;
+    appearance: none; /* Supprime le style par défaut du système */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
+    padding-right: 40px;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-control::placeholder {
+    color: #95a5a6;
+}
+
+/* Changement visuel lors du clic ou de la saisie (Focus) */
+.form-control:focus {
+    outline: none;
+    border-color: #ffd700;
+    background: #34495e;
+    box-shadow: 0 0 8px rgba(255, 213, 0, 0.2);
+}
+
+/* Options à l'intérieur du select */
+select.form-control option {
+    background: #1a252f;
+    color: white;
+}
+
+/* --- Bouton d'action principal --- */
+.btn-submit {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}

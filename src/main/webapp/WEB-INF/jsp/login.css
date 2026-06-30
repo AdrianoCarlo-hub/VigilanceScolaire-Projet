@@ -1,0 +1,163 @@
+/* login.css */
+
+/* --- Configuration globale du viewport --- */
+body {
+    background-color: #2c3e50;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* --- Conteneur de la carte de connexion --- */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    background: #1a252f;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    animation: fadeInDown 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Identité visuelle (Branding) --- */
+.login-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-header .logo-icon {
+    font-size: 42px;
+    color: #ffd700;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.login-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.login-header p {
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* --- Gestion des formulaires --- */
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ecf0f1;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+label i {
+    color: #00d4ff;
+    width: 16px;
+    text-align: center;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #34495e;
+    background: #2c3e50;
+    color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.form-control::placeholder {
+    color: #7f8c8d;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #ffd700;
+    background: #34495e;
+    box-shadow: 0 0 8px rgba(255, 213, 0, 0.25);
+}
+
+/* --- Bouton d'action --- */
+.btn-login {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    color: white;
+    padding: 13px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.25);
+}
+
+.btn-login:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* --- États d'alerte contextuels (Spring Security Exception) --- */
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: shake 0.3s ease-in-out;
+}
+
+.alert-danger {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.25);
+}
+
+.alert-success {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.25);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}

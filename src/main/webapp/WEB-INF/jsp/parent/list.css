@@ -1,0 +1,228 @@
+/* parents_list.css */
+
+/* --- En-tête de section --- */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.table-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.table-header h2 i {
+    color: #ffd700;
+}
+
+/* --- Bouton Ajouter un Parent --- */
+.btn-add {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.35);
+    color: white;
+}
+
+/* --- Barre de Recherche et Filtres --- */
+.search-filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #1a252f;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 350px;
+    max-width: 100%;
+    flex-grow: 1;
+}
+
+.search-input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border-radius: 6px;
+    border: 1px solid #34495e;
+    background: #111;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.search-input-wrapper input:focus {
+    border-color: #00d4ff;
+}
+
+.btn-reset {
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-reset:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+/* --- Structure du Tableau Sombre --- */
+.responsive-table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.table-dark {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a252f;
+    color: white;
+    text-align: left;
+}
+
+.table-dark th {
+    background: #2c3e50;
+    padding: 15px;
+    font-weight: bold;
+    color: #ecf0f1;
+    border-bottom: 2px solid #34495e;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.table-dark th:hover {
+    background: #34495e;
+}
+
+.table-dark th i {
+    margin-left: 6px;
+    color: #ffd700;
+}
+
+.table-dark td {
+    padding: 14px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-dark tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table-dark tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.04);
+}
+
+/* ID de l'enregistrement */
+.id-cell {
+    font-family: monospace;
+    color: #bdc3c7;
+    font-weight: bold;
+}
+
+/* Détails des coordonnées de contact */
+.contact-cell i {
+    color: #00d4ff;
+    margin-right: 5px;
+    width: 14px;
+    text-align: center;
+}
+
+/* --- Boutons d'Action --- */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-link, .delete-link {
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.edit-link {
+    background: #3498db;
+    color: white;
+}
+
+.edit-link:hover {
+    background: #2980b9;
+    transform: scale(1.03);
+}
+
+.delete-link {
+    background: #e74c3c;
+    color: white;
+}
+
+.delete-link:hover {
+    background: #c0392b;
+    transform: scale(1.03);
+}
+
+/* --- Rendu d'état d'absence de données --- */
+.no-data {
+    text-align: center;
+    padding: 50px;
+    color: #bdc3c7;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+}

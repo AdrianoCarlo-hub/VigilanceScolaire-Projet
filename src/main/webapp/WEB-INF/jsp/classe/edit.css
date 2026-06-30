@@ -1,0 +1,180 @@
+/* --- Variables de couleurs du thème --- */
+:root {
+    --bg-main: #1a252f;
+    --bg-header: #2c3e50;
+    --text-white: #ffffff;
+    --text-muted: #7f8c8d;
+    --accent-gold: #ffd700;
+    --accent-cyan: #00d4ff;
+    --accent-cyan-dark: #00a8cc;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --info-color: #3498db;
+    --warning-color: #f39c12;
+    --border-color: rgba(255, 255, 255, 0.05);
+    --border-color-strong: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Animation d'entrée du formulaire --- */
+.form-container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: var(--bg-main);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    animation: slideUpForm 0.4s ease-out;
+}
+
+@keyframes slideUpForm {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Bouton Retour --- */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    color: white;
+    transform: translateX(-3px);
+}
+
+/* --- Titre Principal --- */
+h2 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 24px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h2 i {
+    color: var(--accent-gold);
+}
+
+/* --- Composants des champs --- */
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+label i {
+    color: var(--accent-cyan);
+    width: 16px;
+    text-align: center;
+}
+
+/* Inputs de saisie */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #34495e;
+    background: #2c3e50;
+    color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+/* Focus dynamique */
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    background: #34495e;
+    box-shadow: 0 0 8px rgba(255, 213, 0, 0.2);
+}
+
+/* Champ en erreur */
+.form-control.error {
+    border-color: var(--danger-color);
+    background: rgba(231, 76, 60, 0.1);
+}
+
+/* Messages d'erreur */
+.error-message {
+    color: var(--danger-color);
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* Select spécifique */
+select.form-control {
+    cursor: pointer;
+}
+
+select.form-control option {
+    background: #1a252f;
+    color: white;
+}
+
+/* --- Bouton de mise à jour --- */
+.btn-submit {
+    background: linear-gradient(135deg, var(--success-color) 0%, #2ecc71 100%);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}
